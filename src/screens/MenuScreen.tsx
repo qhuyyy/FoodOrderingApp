@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import products from '../assets/data/products';
@@ -8,8 +8,13 @@ import ProductListItem from '../components/ProductListItem';
 const MenuScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ProductListItem product={products[1]} />
-      <ProductListItem product={products[2]} />
+      <FlatList
+        data={products}
+        renderItem={({ item }) => {
+          return <ProductListItem product={item} />;
+        }}
+        numColumns={2}
+      ></FlatList>
     </SafeAreaView>
   );
 };
