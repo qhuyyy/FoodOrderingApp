@@ -1,20 +1,31 @@
-import { StyleSheet, FlatList } from 'react-native';
 import React from 'react';
+import { StyleSheet, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import products from '../assets/data/products';
-
 import ProductListItem from '../components/ProductListItem';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Tabs'>;
 
 const MenuScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const goToDetail = (product: any) => {
+    navigation.navigate('ProductDetail', { product });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={products}
-        renderItem={({ item }) => {
-          return <ProductListItem product={item} />;
-        }}
+        renderItem={({ item }) => (
+          <ProductListItem product={item} onPress={() => goToDetail(item)} />
+        )}
+        keyExtractor={item => item.id.toString()}
         numColumns={2}
-      ></FlatList>
+      />
     </SafeAreaView>
   );
 };
@@ -22,5 +33,8 @@ const MenuScreen = () => {
 export default MenuScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    padding: 10,
+  },
 });

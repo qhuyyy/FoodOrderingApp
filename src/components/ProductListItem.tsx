@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Product } from '../type/types';
 
@@ -7,19 +7,20 @@ export const defaultImage =
 
 type ProductListItemProps = {
   product: Product;
+  onPress: () => void;
 };
 
-const ProductListItem = ({ product }: ProductListItemProps) => {
+const ProductListItem = ({ product, onPress }: ProductListItemProps) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
         source={{ uri: product.image || defaultImage }}
         style={styles.image}
-        resizeMode='contain'
+        resizeMode="contain"
       />
       <Text style={styles.name}>{product.name}</Text>
       <Text style={styles.price}>{product.price} $</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
