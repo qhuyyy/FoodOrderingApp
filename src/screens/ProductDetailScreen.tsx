@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
+import { MenuStackParamList } from '../navigation/MenuNavigator';
 
-type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>;
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type ProductDetailRouteProp = RouteProp<MenuStackParamList, 'ProductDetail'>;
+type NavigationProp = NativeStackNavigationProp<MenuStackParamList>;
 
 const defaultPizzaImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
@@ -43,7 +43,7 @@ export default function ProductDetailScreen() {
         style={styles.image}
       />
 
-      <Text style={styles.text}>Select size: </Text>
+      <Text>Select size: </Text>
       <View style={styles.sizes}>
         {sizes.map(size => (
           <Pressable
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     fontSize: 20,
+    color: 'white',
   },
   button: {
     height: 50,

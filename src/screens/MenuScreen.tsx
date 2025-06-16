@@ -5,9 +5,12 @@ import products from '../assets/data/products';
 import ProductListItem from '../components/ProductListItem';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator';
+import { MenuStackParamList } from '../navigation/MenuNavigator';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Tabs'>;
+export type NavigationProp = NativeStackNavigationProp<
+  MenuStackParamList,
+  'Menu'
+>;
 
 const MenuScreen = () => {
   const navigation = useNavigation<NavigationProp>();

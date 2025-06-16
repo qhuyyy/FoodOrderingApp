@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MenuScreen from '../screens/MenuScreen';
+import { Image, TouchableOpacity } from 'react-native';
+import MenuStackNavigator from './MenuNavigator';
 import Screen2 from '../screens/Screen2';
 
 export type TabParamList = {
-  Menu: undefined;
+  MenuStack: undefined;
   Screen2: undefined;
 };
 
@@ -15,9 +15,10 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
-        name="Menu"
-        component={MenuScreen}
+        name="MenuStack"
+        component={MenuStackNavigator}
         options={{
+          tabBarLabel: 'Menu',
           tabBarIcon: ({ focused }) => (
             <Image
               source={require('../assets/icons/Menu.png')}
