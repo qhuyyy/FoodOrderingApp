@@ -2,11 +2,11 @@ import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import Screen1 from '../screens/Screen1';
+import MenuScreen from '../screens/MenuScreen';
 import Screen2 from '../screens/Screen2';
 
 export type TabParamList = {
-  Screen1: undefined;
+  Menu: undefined;
   Screen2: undefined;
 };
 
@@ -16,8 +16,8 @@ export function TabNavigator({}) {
   return (
     <BottomTab.Navigator screenOptions={{headerShown: false}}>
       <BottomTab.Screen
-        name="Screen1"
-        component={Screen1}
+        name="Menu"
+        component={MenuScreen}
         // options={{
         //   tabBarIcon: () => (
         //     <Image
