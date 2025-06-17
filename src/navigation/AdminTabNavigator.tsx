@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, TouchableOpacity } from 'react-native';
 import MenuStackNavigator from './AdminMenuNavigator';
-import Screen2 from '../screens/user/Screen2';
+import Screen2 from '../screens/admin/Screen2';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 export type TabParamList = {
   MenuStack: undefined;

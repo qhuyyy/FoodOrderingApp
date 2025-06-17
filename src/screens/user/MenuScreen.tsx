@@ -6,6 +6,7 @@ import ProductListItem from '../../components/ProductListItem';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UserMenuStackParamList } from '../../navigation/UserMenuNavigator';
+import { Product } from '../../type/types';
 
 export type NavigationProp = NativeStackNavigationProp<
   UserMenuStackParamList,
@@ -15,7 +16,7 @@ export type NavigationProp = NativeStackNavigationProp<
 const MenuScreen = () => {
   const navigation = useNavigation<NavigationProp>();
 
-  const goToDetail = (product: any) => {
+  const goToDetail = (product: Product) => {
     navigation.navigate('ProductDetail', { product });
   };
 
