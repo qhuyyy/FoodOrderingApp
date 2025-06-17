@@ -9,13 +9,16 @@ import {
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { UserMenuStackParamList } from '../../navigation/UserMenuNavigator';
+import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
 import { useCartContext } from '../../providers/CartProvider';
 import { PizzaSize } from '../../type/types';
 import CustomButton from '../../components/CustomButton';
 
-type ProductDetailRouteProp = RouteProp<UserMenuStackParamList, 'ProductDetail'>;
-type NavigationProp = NativeStackNavigationProp<UserMenuStackParamList>;
+type ProductDetailRouteProp = RouteProp<
+  AdminMenuStackParamList,
+  'ProductDetail'
+>;
+type NavigationProp = NativeStackNavigationProp<AdminMenuStackParamList>;
 
 const defaultPizzaImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
@@ -27,16 +30,7 @@ export default function ProductDetailScreen() {
   const { product } = route.params;
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
-  const [selectedSize, setSelectedSize] = useState<PizzaSize>('L');
-
-  const { addItem } = useCartContext();
-  const addToCart = () => {
-    if (!product) {
-      return;
-    }
-    addItem(product, selectedSize);
-    navigation.navigate('Menu');
-  };
+  const [selectedSize, setSelectedSize] = useState('');
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: `${product.name}` });
@@ -74,8 +68,6 @@ export default function ProductDetailScreen() {
       </View>
 
       <Text style={styles.price}>Price: ${product.price}</Text>
-
-      <CustomButton text="Add to Cart" onPress={addToCart} />
     </View>
   );
 }

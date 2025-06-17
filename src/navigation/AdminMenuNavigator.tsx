@@ -10,6 +10,7 @@ import { Product } from '../type/types';
 
 import AdminProductDetailScreen from '../screens/admin/ProductDetailScreen';
 import CreateProductScreen from '../screens/admin/CreateProductScreen';
+import UpdateProductScreen from '../screens/admin/UpdateProductScreen';
 import AdminMenuScreen from '../screens/admin/MenuScreen';
 import AdminCartScreen from '../screens/admin/CartScreen';
 
@@ -17,6 +18,7 @@ export type AdminMenuStackParamList = {
   Menu: undefined;
   ProductDetail: { product: Product };
   CreateProduct: undefined;
+  UpdateProduct: { product: Product };
   Cart: undefined;
 };
 
@@ -46,24 +48,35 @@ export default function AdminMenuNavigator() {
         <Stack.Screen
           name="ProductDetail"
           component={AdminProductDetailScreen}
-          options={({ navigation, route }) => ({
-            title: route.params.product.name,
-            headerTitleAlign: 'center',
-            presentation: 'modal',
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Cart')}
-                style={{ marginEnd: 15 }}
-              >
-                <Icon name="pen" size={20} color="#FF3B30" />
-              </TouchableOpacity>
-            ),
-          })}
+          options={({ navigation, route }) => {
+            const { product } = route.params;
+
+            return {
+              title: product.name,
+              headerTitleAlign: 'center',
+              presentation: 'modal',
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UpdateProduct', { product })
+                  }
+                  style={{ marginEnd: 15 }}
+                >
+                  <Icon name="pen" size={20} color="#FF3B30" />
+                </TouchableOpacity>
+              ),
+            };
+          }}
         />
         <Stack.Screen
           name="CreateProduct"
           component={CreateProductScreen}
           options={{ headerTitleAlign: 'center', title: 'Create new Product' }}
+        />
+        <Stack.Screen
+          name="UpdateProduct"
+          component={UpdateProductScreen}
+          options={{ headerTitleAlign: 'center', title: 'Update the Product' }}
         />
         <Stack.Screen
           name="Cart"

@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MenuStackParamList } from '../../navigation/UserMenuNavigator';
+import { UserMenuStackParamList } from '../../navigation/UserMenuNavigator';
 import { useCartContext } from '../../providers/CartProvider';
 import { PizzaSize } from '../../type/types';
 import CustomButton from '../../components/CustomButton';
 
-type ProductDetailRouteProp = RouteProp<MenuStackParamList, 'ProductDetail'>;
-type NavigationProp = NativeStackNavigationProp<MenuStackParamList>;
+type ProductDetailRouteProp = RouteProp<UserMenuStackParamList, 'ProductDetail'>;
+type NavigationProp = NativeStackNavigationProp<UserMenuStackParamList>;
 
 const defaultPizzaImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
