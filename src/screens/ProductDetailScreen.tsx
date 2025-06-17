@@ -10,6 +10,8 @@ import {
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MenuStackParamList } from '../navigation/MenuNavigator';
+import { useCartContext } from '../providers/CartProvider';
+import { PizzaSize } from '../type/types';
 
 type ProductDetailRouteProp = RouteProp<MenuStackParamList, 'ProductDetail'>;
 type NavigationProp = NativeStackNavigationProp<MenuStackParamList>;
@@ -23,10 +25,17 @@ export default function ProductDetailScreen() {
 
   const { product } = route.params;
 
-  const sizes = ['S', 'M', 'L', 'XL'];
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>('L');
 
-  const addToCart = () => {};
+  const { addItem } = useCartContext();
+  const addToCart = () => {
+    if (!product) {
+      return;
+    }
+    addItem(product, selectedSize);
+    navigation.navigate('Menu');
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: `${product.name}` });
