@@ -1,17 +1,22 @@
-// navigation/AdminMenuNavigator.tsx
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import AdminMenuScreen from '../screens/admin/MenuScreen';
-import AdminProductDetailScreen from '../screens/admin/ProductDetailScreen';
-import AdminCartScreen from '../screens/admin/CartScreen';
 import { TouchableOpacity } from 'react-native';
+
+import { createStackNavigator } from '@react-navigation/stack';
+
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import CartProvider from '../providers/CartProvider';
 import { Product } from '../type/types';
+
+import AdminProductDetailScreen from '../screens/admin/ProductDetailScreen';
+import CreateProductScreen from '../screens/admin/CreateProductScreen';
+import AdminMenuScreen from '../screens/admin/MenuScreen';
+import AdminCartScreen from '../screens/admin/CartScreen';
 
 export type AdminMenuStackParamList = {
   Menu: undefined;
   ProductDetail: { product: Product };
+  CreateProduct: undefined;
   Cart: undefined;
 };
 
@@ -30,7 +35,7 @@ export default function AdminMenuNavigator() {
             presentation: 'modal',
             headerRight: () => (
               <TouchableOpacity
-                // onPress={() => navigation.navigate('Cart')}
+                onPress={() => navigation.navigate('CreateProduct')}
                 style={{ marginEnd: 15 }}
               >
                 <Icon name="plus-square" size={24} color="#FF3B30" />
@@ -54,6 +59,11 @@ export default function AdminMenuNavigator() {
               </TouchableOpacity>
             ),
           })}
+        />
+        <Stack.Screen
+          name="CreateProduct"
+          component={CreateProductScreen}
+          options={{ headerTitleAlign: 'center', title: 'Create new Product' }}
         />
         <Stack.Screen
           name="Cart"
