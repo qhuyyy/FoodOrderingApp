@@ -1,10 +1,11 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import MenuScreen from '../screens/MenuScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import CartScreen from '../screens/CartScreen';
 import { Image, TouchableOpacity } from 'react-native';
 import { Product } from '../type/types';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export type MenuStackParamList = {
   Menu: undefined;
@@ -12,7 +13,7 @@ export type MenuStackParamList = {
   Cart: undefined;
 };
 
-const Stack = createNativeStackNavigator<MenuStackParamList>();
+const Stack = createStackNavigator<MenuStackParamList>();
 
 export default function MenuStackNavigator() {
   return (
@@ -23,13 +24,13 @@ export default function MenuStackNavigator() {
         options={({ navigation }) => ({
           title: 'Menu',
           headerTitleAlign: 'center',
+          presentation: 'modal',
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-              <Image
-                source={require('../assets/icons/Cart.png')}
-                style={{ width: 24, height: 24, marginRight: 16 }}
-                resizeMode="contain"
-              />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Cart')}
+              style={{ marginEnd: 15 }}
+            >
+              <Icon name="shopping-cart" size={24} color="6E7E85" />
             </TouchableOpacity>
           ),
         })}
@@ -37,9 +38,18 @@ export default function MenuStackNavigator() {
       <Stack.Screen
         name="ProductDetail"
         component={ProductDetailScreen}
-        options={({ route }) => ({
+        options={({ navigation, route }) => ({
           title: route.params.product.name,
           headerTitleAlign: 'center',
+          presentation: 'modal',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Cart')}
+              style={{ marginEnd: 15 }}
+            >
+              <Icon name="shopping-cart" size={24} color="6E7E85" />
+            </TouchableOpacity>
+          ),
         })}
       />
       <Stack.Screen

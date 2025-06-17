@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, TouchableOpacity } from 'react-native';
 import MenuStackNavigator from './MenuNavigator';
 import Screen2 from '../screens/Screen2';
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
 export type TabParamList = {
   MenuStack: undefined;
   Screen2: undefined;
@@ -20,14 +20,10 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: 'Menu',
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require('../assets/icons/Menu.png')}
-              style={{
-                width: 32,
-                height: 32,
-                tintColor: focused ? '#007AFF' : '#8E8E93',
-              }}
-              resizeMode="contain"
+            <Icon
+              name="cookie"
+              size={24}
+              color={focused ? '#007AFF' : '#8E8E93'}
             />
           ),
         }}
@@ -37,14 +33,10 @@ export default function TabNavigator() {
         component={Screen2}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require('../assets/icons/Order.png')}
-              style={{
-                width: 32,
-                height: 32,
-                tintColor: focused ? '#007AFF' : '#8E8E93',
-              }}
-              resizeMode="contain"
+            <Icon
+              name="bars"
+              size={24}
+              color={focused ? '#007AFF' : '#8E8E93'}
             />
           ),
         }}
