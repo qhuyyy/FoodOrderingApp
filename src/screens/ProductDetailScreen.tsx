@@ -12,6 +12,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MenuStackParamList } from '../navigation/MenuNavigator';
 import { useCartContext } from '../providers/CartProvider';
 import { PizzaSize } from '../type/types';
+import CustomButton from '../components/CustomButton';
 
 type ProductDetailRouteProp = RouteProp<MenuStackParamList, 'ProductDetail'>;
 type NavigationProp = NativeStackNavigationProp<MenuStackParamList>;
@@ -72,13 +73,9 @@ export default function ProductDetailScreen() {
         ))}
       </View>
 
-      <Text style={styles.price}>${product.price}</Text>
+      <Text style={styles.price}>Price: ${product.price}</Text>
 
-      <View>
-        <TouchableOpacity onPress={addToCart} style={styles.button}>
-          <Text style={styles.text}>Add to Cart</Text>
-        </TouchableOpacity>
-      </View>
+      <CustomButton text="Add to Cart" onPress={addToCart} />
     </View>
   );
 }
