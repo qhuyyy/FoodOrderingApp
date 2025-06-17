@@ -27,36 +27,36 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     if (existingItem) {
       updateQuantity(existingItem.id, 1);
       return;
+    } else {
+      const newCartItem: CartItem = {
+        id: uuid.v4(),
+        product,
+        product_id: product.id,
+        size,
+        quantity: 1,
+      };
+
+      setItems([newCartItem, ...items]);
     }
-
-    const newCartItem: CartItem = {
-      id: uuid.v4(),
-      product,
-      product_id: product.id,
-      size,
-      quantity: 1,
-    };
-
-    setItems([newCartItem, ...items]);
   };
 
   const updateQuantity = (itemId: string, amount: -1 | 1) => {
-    const updatedItems = items
-      .map(item =>
-        item.id !== itemId
-          ? item
-          : { ...item, quantity: item.quantity + amount },
-      )
-      .filter(item => item.quantity > 0);
-    setItems(updatedItems);
+    setItems(
+      items
+        .map(item =>
+          item.id !== itemId
+            ? item
+            : { ...item, quantity: item.quantity + amount },
+        )
+        .filter(item => item.quantity > 0),
+    );
   };
 
   //   console.log(items);
 
-  const total = items.reduce(
-    (sum, item) => (sum += item.product.price * item.quantity),
-    0,
-  );
+  const total = items.reduce((sum, item) => {
+    return (sum += item.product.price * item.quantity);
+  }, 0);
 
   return (
     <CartContext.Provider value={{ items, addItem, updateQuantity, total }}>

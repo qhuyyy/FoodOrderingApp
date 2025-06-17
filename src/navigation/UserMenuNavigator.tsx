@@ -1,22 +1,22 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import MenuScreen from '../screens/MenuScreen';
-import ProductDetailScreen from '../screens/ProductDetailScreen';
-import CartScreen from '../screens/CartScreen';
-import { Image, TouchableOpacity } from 'react-native';
-import { Product } from '../type/types';
+import MenuScreen from '../screens/user/MenuScreen';
+import ProductDetailScreen from '../screens/user/ProductDetailScreen';
+import CartScreen from '../screens/user/CartScreen';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CartProvider from '../providers/CartProvider';
+import { Product } from '../type/types';
 
-export type MenuStackParamList = {
+export type UserMenuStackParamList = {
   Menu: undefined;
   ProductDetail: { product: Product };
   Cart: undefined;
 };
 
-const Stack = createStackNavigator<MenuStackParamList>();
+const Stack = createStackNavigator<UserMenuStackParamList>();
 
-export default function MenuStackNavigator() {
+export default function UserMenuNavigator() {
   return (
     <CartProvider>
       <Stack.Navigator>
@@ -24,7 +24,7 @@ export default function MenuStackNavigator() {
           name="Menu"
           component={MenuScreen}
           options={({ navigation }) => ({
-            title: 'Menu',
+            title: 'User Menu',
             headerTitleAlign: 'center',
             presentation: 'modal',
             headerRight: () => (
@@ -32,7 +32,7 @@ export default function MenuStackNavigator() {
                 onPress={() => navigation.navigate('Cart')}
                 style={{ marginEnd: 15 }}
               >
-                <Icon name="shopping-cart" size={24} color="6E7E85" />
+                <Icon name="shopping-cart" size={24} color="#007AFF" />
               </TouchableOpacity>
             ),
           })}
@@ -49,7 +49,7 @@ export default function MenuStackNavigator() {
                 onPress={() => navigation.navigate('Cart')}
                 style={{ marginEnd: 15 }}
               >
-                <Icon name="shopping-cart" size={24} color="6E7E85" />
+                <Icon name="shopping-cart" size={24} color="#007AFF" />
               </TouchableOpacity>
             ),
           })}

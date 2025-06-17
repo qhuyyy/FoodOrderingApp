@@ -1,13 +1,24 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import TabNavigator from './navigation/TabNavigator';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import RoleSelectorScreen from './screens/RoleSelectorScreen';
+import AdminTabNavigator from './navigation/AdminTabNavigator';
+import UserTabNavigator from './navigation/UserTabNavigator';
+import { RootStackParamList } from './type/navigation';
 import { StatusBar } from 'react-native';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="RoleSelector" component={RoleSelectorScreen} />
+        <Stack.Screen name="Admin" component={AdminTabNavigator} />
+        <Stack.Screen name="User" component={UserTabNavigator} />
+      </Stack.Navigator>
       <StatusBar barStyle={'dark-content'} />
-      <TabNavigator />
     </NavigationContainer>
   );
 }

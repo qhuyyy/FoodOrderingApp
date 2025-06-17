@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import React, { useContext } from 'react';
-import { useCartContext } from '../providers/CartProvider';
-import CartListItem from '../components/CartListItem';
-import CustomButton from '../components/CustomButton';
+import { useCartContext } from '../../providers/CartProvider';
+import CartListItem from '../../components/CartListItem';
+import CustomButton from '../../components/CustomButton';
 
 const CartScreen = () => {
   const { items, total } = useCartContext();

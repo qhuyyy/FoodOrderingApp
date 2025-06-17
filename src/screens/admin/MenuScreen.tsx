@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import products from '../assets/data/products';
-import ProductListItem from '../components/ProductListItem';
+import products from '../../assets/data/products';
+import ProductListItem from '../../components/ProductListItem';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MenuStackParamList } from '../navigation/MenuNavigator';
+import { MenuStackParamList } from '../../navigation/UserMenuNavigator';
 
 export type NavigationProp = NativeStackNavigationProp<
   MenuStackParamList,

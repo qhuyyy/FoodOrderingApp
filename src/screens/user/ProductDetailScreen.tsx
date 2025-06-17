@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MenuStackParamList } from '../navigation/MenuNavigator';
-import { useCartContext } from '../providers/CartProvider';
-import { PizzaSize } from '../type/types';
-import CustomButton from '../components/CustomButton';
+import { MenuStackParamList } from '../../navigation/UserMenuNavigator';
+import { useCartContext } from '../../providers/CartProvider';
+import { PizzaSize } from '../../type/types';
+import CustomButton from '../../components/CustomButton';
 
 type ProductDetailRouteProp = RouteProp<MenuStackParamList, 'ProductDetail'>;
 type NavigationProp = NativeStackNavigationProp<MenuStackParamList>;
