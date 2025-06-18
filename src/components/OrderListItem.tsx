@@ -32,7 +32,7 @@ const OrderListItem = ({ order, ...rest }: OrderListItemProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#F9B9B7',
     padding: 10,
     borderRadius: 10,
     flexDirection: 'row',

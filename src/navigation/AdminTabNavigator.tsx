@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, TouchableOpacity } from 'react-native';
 import MenuStackNavigator from './AdminMenuNavigator';
-import Screen2 from '../screens/admin/Screen2';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import AdminOrderNavigator from './AdminOrderNavigator';
+
 export type TabParamList = {
   MenuStack: undefined;
-  Screen2: undefined;
+  Orders: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -34,10 +34,10 @@ export default function AdminTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Screen2"
-        component={Screen2}
+        name="Orders"
+        component={AdminOrderNavigator}
         options={{
-          tabBarLabel: 'Admin Panel',
+          title: 'Orders',
           tabBarIcon: ({ color }) => (
             <Icon name="bars" size={24} color={color} />
           ),
