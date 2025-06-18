@@ -7,6 +7,8 @@ import AdminTabNavigator from './navigation/AdminTabNavigator';
 import UserTabNavigator from './navigation/UserTabNavigator';
 import { RootStackParamList } from './type/navigation';
 import { StatusBar } from 'react-native';
+import SignInScreen from './screens/authentication/SignInScreen';
+import SignUpScreen from './screens/authentication/SignUpScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -14,7 +16,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="RoleSelector" component={RoleSelectorScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+
+        {/* <Stack.Screen name="RoleSelector" component={RoleSelectorScreen} /> */}
         <Stack.Screen name="Admin" component={AdminTabNavigator} />
         <Stack.Screen name="User" component={UserTabNavigator} />
       </Stack.Navigator>
