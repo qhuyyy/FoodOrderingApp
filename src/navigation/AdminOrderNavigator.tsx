@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import OrdersScreen from '../screens/admin/OrdersScreen';
-import OrderDetailScreen from '../screens/admin/OrderDetailScreen.tsx';
+import OrderDetailScreen from '../screens/admin/OrderDetailScreen';
+import AdminOrderTopTabs from './AdminOrderTopTabs';
 import { Order } from '../type/types';
 
 export type AdminOrderStackParamList = {
-  Orders: undefined;
-  OrderDetail: { order: Order }; 
+  OrdersTopTabs: undefined;
+  OrderDetail: { order: Order };
 };
 
 const Stack = createStackNavigator<AdminOrderStackParamList>();
@@ -15,14 +15,18 @@ export default function AdminOrderNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Orders"
-        component={OrdersScreen}
-        options={{ headerTitleAlign: 'center', title: 'Orders' }}
+        name="OrdersTopTabs"
+        component={AdminOrderTopTabs}
+        // options={{ headerTitleAlign: 'center', title: 'Orders' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="OrderDetail"
         component={OrderDetailScreen}
-        options={{ headerTitleAlign: 'center', title: 'Order Detail' }}
+        options={({ route }) => ({
+          headerTitleAlign: 'center',
+          title: `Order: ${route.params.order.id}`,
+        })}
       />
     </Stack.Navigator>
   );

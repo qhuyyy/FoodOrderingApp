@@ -6,7 +6,7 @@ import AdminOrderNavigator from './AdminOrderNavigator';
 
 export type TabParamList = {
   MenuStack: undefined;
-  Orders: undefined;
+  OrdersStack: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -34,10 +34,10 @@ export default function AdminTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Orders"
+        name="OrdersStack"
         component={AdminOrderNavigator}
         options={{
-          title: 'Orders',
+          tabBarLabel: 'Orders',
           tabBarIcon: ({ color }) => (
             <Icon name="bars" size={24} color={color} />
           ),
