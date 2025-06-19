@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MenuStackNavigator from './AdminMenuNavigator';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AdminOrderNavigator from './AdminOrderNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../type/navigation';
+import { useAuthContext } from '../providers/AuthProvider';
+import { useNavigation } from '@react-navigation/native';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Admin'>;
 
 export type TabParamList = {
   MenuStack: undefined;
@@ -12,6 +18,15 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function AdminTabNavigator() {
+  const navigation = useNavigation<NavigationProp>();
+  const { isAdmin } = useAuthContext();
+
+  useEffect(() => {
+    if (!isAdmin) {
+      navigation.navigate('User');
+    }
+  }, [isAdmin]);
+
   return (
     <Tab.Navigator
       screenOptions={{

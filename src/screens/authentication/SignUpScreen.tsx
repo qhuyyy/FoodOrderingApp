@@ -21,11 +21,20 @@ const SignUpScreen = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function signUpWithEmail() {
+    setLoading(true);
     const { error } = await supabase.auth.signUp({ email, password });
 
-    if (error) Alert.alert(error.message);
+    if (error) {
+      Alert.alert(error.message);
+      return;
+    } else {
+      setLoading(false);
+      setEmail('');
+      setPassword('');
+    }
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -51,7 +60,11 @@ const SignUpScreen = () => {
         />
       </View>
 
-      <CustomButton text="Sign Up" onPress={() => signUpWithEmail()} />
+      <CustomButton
+        disabled={loading}
+        text={loading ? 'Creating account ...' : 'Sign Up'}
+        onPress={() => signUpWithEmail()}
+      />
 
       <View style={styles.signUpContainer}>
         <Text>Already have an account? </Text>

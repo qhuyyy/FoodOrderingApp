@@ -1,8 +1,16 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../type/navigation';
+import { useAuthContext } from '../providers/AuthProvider';
+import { supabase } from '../lib/supabase';
 
 type RoleSelectorNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -11,6 +19,32 @@ type RoleSelectorNavigationProp = NativeStackNavigationProp<
 
 export default function RoleSelectorScreen() {
   const navigation = useNavigation<RoleSelectorNavigationProp>();
+
+  const { session, loading, isAdmin } = useAuthContext();
+  console.log(session);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (!session) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+      return;
+    }
+
+    if (!isAdmin) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'User' }],
+      });
+    }
+  }, [loading, session, isAdmin]);
 
   return (
     <View style={styles.container}>
@@ -28,6 +62,13 @@ export default function RoleSelectorScreen() {
         onPress={() => navigation.navigate('User')}
       >
         <Text style={styles.buttonText}>User</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => supabase.auth.signOut()}
+      >
+        <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );

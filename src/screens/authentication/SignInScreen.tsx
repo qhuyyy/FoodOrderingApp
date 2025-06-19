@@ -1,4 +1,5 @@
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -11,6 +12,7 @@ import CustomButton from '../../components/CustomButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type/navigation';
 import { useNavigation } from '@react-navigation/native';
+import { supabase } from '../../lib/supabase';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignIn'>;
 
@@ -19,7 +21,25 @@ const SignInScreen = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
+  async function signInWithEmail() {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      Alert.alert(error.message);
+      return;
+    } else {
+      navigation.navigate('RoleSelector');
+      setLoading(false);
+      setEmail('');
+      setPassword('');
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>SIGN IN</Text>
@@ -44,9 +64,13 @@ const SignInScreen = () => {
         />
       </View>
 
-      <CustomButton text="Sign In" />
+      <CustomButton
+        disabled={loading}
+        text={loading ? 'Signing In ...' : 'Sign In'}
+        onPress={() => signInWithEmail()}
+      />
 
-      <View style={styles.signUpContainer}>
+      <View style={styles.signInContainer}>
         <Text>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.signUpText}>Sign Up</Text>
@@ -77,7 +101,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 16,
   },
-  signUpContainer: {
+  signInContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
   },

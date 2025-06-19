@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MenuStackNavigator from './UserMenuNavigator';
 import UserOrderNavigator from './UserOrderNavigator';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../type/navigation';
+import { useAuthContext } from '../providers/AuthProvider';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'User'>;
 
 export type TabParamList = {
   MenuStack: undefined;
@@ -12,6 +18,15 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function UserTabNavigator() {
+  // const navigation = useNavigation<NavigationProp>();
+  // const { session } = useAuthContext();
+
+  // useEffect(() => {
+  //   if (!session) {
+  //     navigation.navigate('SignIn');
+  //   }
+  // }, []);
+
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
@@ -30,7 +45,7 @@ export default function UserTabNavigator() {
       />
       <Tab.Screen
         name="Orders"
-        component={UserOrderNavigator} 
+        component={UserOrderNavigator}
         options={{
           title: 'Orders',
           tabBarIcon: ({ focused }) => (

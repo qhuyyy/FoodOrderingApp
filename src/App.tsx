@@ -9,21 +9,27 @@ import { RootStackParamList } from './type/navigation';
 import { StatusBar } from 'react-native';
 import SignInScreen from './screens/authentication/SignInScreen';
 import SignUpScreen from './screens/authentication/SignUpScreen';
+import CartProvider from './providers/CartProvider';
+import AuthProvider from './providers/AuthProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+    <AuthProvider>
+      <CartProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
 
-        {/* <Stack.Screen name="RoleSelector" component={RoleSelectorScreen} /> */}
-        <Stack.Screen name="Admin" component={AdminTabNavigator} />
-        <Stack.Screen name="User" component={UserTabNavigator} />
-      </Stack.Navigator>
-      <StatusBar barStyle={'dark-content'} />
-    </NavigationContainer>
+            <Stack.Screen name="RoleSelector" component={RoleSelectorScreen} />
+            <Stack.Screen name="Admin" component={AdminTabNavigator} />
+            <Stack.Screen name="User" component={UserTabNavigator} />
+          </Stack.Navigator>
+          <StatusBar barStyle={'dark-content'} />
+        </NavigationContainer>
+      </CartProvider>
+    </AuthProvider>
   );
 }

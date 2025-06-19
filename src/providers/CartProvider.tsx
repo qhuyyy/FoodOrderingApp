@@ -54,9 +54,11 @@ const CartProvider = ({ children }: PropsWithChildren) => {
 
   //   console.log(items);
 
-  const total = items.reduce((sum, item) => {
-    return (sum += item.product.price * item.quantity);
-  }, 0);
+  const total = parseFloat(
+    items
+      .reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+      .toFixed(2),
+  );
 
   return (
     <CartContext.Provider value={{ items, addItem, updateQuantity, total }}>
