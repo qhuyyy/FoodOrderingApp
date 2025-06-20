@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, { useLayoutEffect, useEffect, useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,7 +14,12 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import OrderListItem from '../../components/OrderListItem';
 import OrderItemListItem from '../../components/OrderItemListItem';
 import { OrderStatus, PizzaSize } from '../../type/types';
-import { useOrderDetail, useUpdateOrder } from '../../api/orders';
+import {
+  useDeleteOrder,
+  useOrderDetail,
+  useUpdateOrder,
+} from '../../api/orders';
+import CustomButton from '../../components/CustomButton';
 
 export type NavigationProp = NativeStackNavigationProp<
   UserOrderStackParamList,
@@ -33,10 +39,37 @@ const OrderDetailScreen = () => {
   const statuses: OrderStatus[] = ['New', 'Cooking', 'Delivering', 'Delivered'];
 
   const { mutate: updateOrder } = useUpdateOrder();
+  const { mutate: deleteOrder } = useDeleteOrder();
 
   const updateStatus = (status: OrderStatus) => {
     updateOrder({ id, status });
     setCurrentStatus(status);
+  };
+
+  const onDelete = (id: number) => {
+    if (order?.status !== 'New') {
+      Alert.alert(
+        'Not allowed',
+        'Only orders with status "New" can be deleted.',
+      );
+      return;
+    }
+
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this order?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteOrder(id);
+            navigation.goBack();
+          },
+        },
+      ],
+    );
   };
 
   useEffect(() => {
@@ -85,6 +118,10 @@ const OrderDetailScreen = () => {
           </Pressable>
         ))}
       </View>
+
+      {order.status === 'New' && (
+        <CustomButton text="Delete Order" onPress={() => onDelete(order.id)} />
+      )}
     </View>
   );
 };
@@ -93,7 +130,7 @@ export default OrderDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
-    gap: 10,
+    gap: 15,
     padding: 10,
   },
   statuses: {

@@ -128,3 +128,27 @@ export const useUpdateOrder = () => {
     },
   });
 };
+
+export const useDeleteOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (orderId: number) => {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', orderId);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () => {
+      // Cập nhật lại danh sách sau khi xóa
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+    },
+    onError: (error) => {
+      console.error('Failed to delete order:', error);
+    },
+  });
+};
