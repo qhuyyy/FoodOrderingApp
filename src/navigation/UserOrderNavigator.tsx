@@ -17,7 +17,7 @@ export default function UserOrderNavigator() {
       <Stack.Screen
         name="Orders"
         component={OrdersScreen}
-        options={{ headerTitleAlign: 'center', title: 'Orders' }}
+        options={{ headerTitleAlign: 'center', title: 'My Orders' }}
       />
       <Stack.Screen
         name="OrderDetail"

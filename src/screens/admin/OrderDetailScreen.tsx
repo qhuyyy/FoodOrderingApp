@@ -20,6 +20,7 @@ import {
   useUpdateOrder,
 } from '../../api/orders';
 import CustomButton from '../../components/CustomButton';
+import { useUpdateOrderSubcription } from '../../api/orders/subcriptions';
 
 export type NavigationProp = NativeStackNavigationProp<
   UserOrderStackParamList,
@@ -40,6 +41,8 @@ const OrderDetailScreen = () => {
 
   const { mutate: updateOrder } = useUpdateOrder();
   const { mutate: deleteOrder } = useDeleteOrder();
+
+  useUpdateOrderSubcription(id);
 
   const updateStatus = (status: OrderStatus) => {
     updateOrder({ id, status });

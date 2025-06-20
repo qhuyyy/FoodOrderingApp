@@ -22,7 +22,7 @@ const OrderListItem = ({ order, ...rest }: OrderListItemProps) => {
     <TouchableOpacity style={styles.container} {...rest}>
       <View>
         <Text style={styles.title}>Order #{order.id}</Text>
-        <Text style={styles.time}>{dayjs(order.created_at).fromNow()}</Text>
+        <Text style={styles.time}>{dayjs(order.updated_at).fromNow()}</Text>
       </View>
 
       <Text style={styles.status}>{order.status}</Text>

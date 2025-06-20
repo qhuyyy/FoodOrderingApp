@@ -11,18 +11,33 @@ import { Order, OrderStatus } from '../../type/types';
 export const useAdminOrderList = ({ archived = false }) => {
   const statuses = archived ? ['Delivered'] : ['New', 'Cooking', 'Delivering'];
 
+  const statusOrder: Record<string, number> = {
+    New: 0,
+    Cooking: 1,
+    Delivering: 2,
+  };
+
   return useQuery({
     queryKey: ['orders', { archived }],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('orders')
         .select('*')
-        .in('status', statuses);
-      // .order('updated_at', { ascending: false });
+        .in('status', statuses)
+        .order('updated_at', { ascending: false });
 
       if (error) {
         throw new Error(error.message);
       }
+
+      if (!archived) {
+        data.sort((a, b) => {
+          const aOrder = statusOrder[a.status as OrderStatus] ?? 999;
+          const bOrder = statusOrder[b.status as OrderStatus] ?? 999;
+          return aOrder - bOrder;
+        });
+      }
+
       return data;
     },
   });
@@ -31,6 +46,13 @@ export const useAdminOrderList = ({ archived = false }) => {
 export const useMyOrderList = () => {
   const { session } = useAuthContext();
   const id = session?.user.id;
+
+  const statusOrder: Record<string, number> = {
+    New: 0,
+    Cooking: 1,
+    Delivering: 2,
+    Delivered: 3,
+  };
 
   return useQuery({
     queryKey: ['orders', { userId: id }],
@@ -41,10 +63,16 @@ export const useMyOrderList = () => {
         .from('orders')
         .select('*')
         .eq('user_id', id)
-        .order('created_at', { ascending: false });
       if (error) {
         throw new Error(error.message);
       }
+
+      data.sort((a, b) => {
+        const aOrder = statusOrder[a.status as OrderStatus] ?? 999;
+        const bOrder = statusOrder[b.status as OrderStatus] ?? 999;
+        return aOrder - bOrder;
+      });
+
       return data;
     },
   });
@@ -147,7 +175,7 @@ export const useDeleteOrder = () => {
       // Cập nhật lại danh sách sau khi xóa
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Failed to delete order:', error);
     },
   });

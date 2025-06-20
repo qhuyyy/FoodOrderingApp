@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // import orders from '../../assets/data/orders';
 import OrderListItem from '../../components/OrderListItem';
@@ -14,6 +14,9 @@ import { UserOrderStackParamList } from '../../navigation/UserOrderNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { Order } from '../../type/types';
 import { useAdminOrderList } from '../../api/orders';
+import { supabase } from '../../lib/supabase';
+import { useQueryClient } from '@tanstack/react-query';
+import { useInsertOrderSubcription } from '../../api/orders/subcriptions';
 
 export type NavigationProp = NativeStackNavigationProp<
   UserOrderStackParamList,
@@ -27,7 +30,14 @@ const OrdersScreen = () => {
     navigation.navigate('OrderDetail', { order });
   };
 
-  const { data: orders, isLoading, error } = useAdminOrderList({archived: false});
+  const {
+    data: orders,
+    isLoading,
+    error,
+  } = useAdminOrderList({ archived: false });
+
+  useInsertOrderSubcription();
+
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -35,7 +45,8 @@ const OrdersScreen = () => {
 
   if (error) {
     return <Text>Failed to fetch Orders</Text>;
-  } 
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
