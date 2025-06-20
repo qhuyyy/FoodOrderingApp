@@ -14,6 +14,8 @@ import { useCartContext } from '../../providers/CartProvider';
 import { PizzaSize } from '../../type/types';
 import CustomButton from '../../components/CustomButton';
 import { useProduct } from '../../api/products';
+import RemoteImage from '../../components/RemoteImage';
+import { defaultImage } from '../../components/ProductListItem';
 
 type ProductDetailRouteProp = RouteProp<
   UserMenuStackParamList,
@@ -59,8 +61,9 @@ export default function ProductDetailScreen() {
   if (error) return <Text>Failed to fetch products</Text>;
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: product.image || defaultPizzaImage }}
+      <RemoteImage
+        path={product.image}
+        fallback={defaultImage}
         style={styles.image}
       />
 

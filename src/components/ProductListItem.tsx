@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Product, Tables } from '../type/types';
+import RemoteImage from './RemoteImage';
 
 export const defaultImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
@@ -13,8 +14,9 @@ type ProductListItemProps = {
 const ProductListItem = ({ product, onPress }: ProductListItemProps) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image
-        source={{ uri: product.image || defaultImage }}
+      <RemoteImage
+        path={product.image}
+        fallback={defaultImage}
         style={styles.image}
         resizeMode="contain"
       />

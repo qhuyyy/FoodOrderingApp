@@ -12,6 +12,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
 import { PizzaSize } from '../../type/types';
 import { useProduct } from '../../api/products';
+import RemoteImage from '../../components/RemoteImage';
+import { defaultImage } from '../../components/ProductListItem';
 
 type ProductDetailRouteProp = RouteProp<
   AdminMenuStackParamList,
@@ -48,8 +50,9 @@ export default function ProductDetailScreen() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: product.image || defaultPizzaImage }}
+      <RemoteImage
+        path={product.image}
+        fallback={defaultImage}
         style={styles.image}
       />
 
