@@ -129,12 +129,34 @@ const UpdateProductScreen = () => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: image || defaultImage }} style={styles.image} />
-      <TouchableOpacity
-        onPress={requestPermissionAndPickImage}
-        style={{ alignItems: 'center' }}
-      >
-        <Text style={[styles.text, { color: '#96C9DC' }]}>Select Image</Text>
-      </TouchableOpacity>
+      {image ? (
+        <>
+          <TouchableOpacity
+            onPress={() => setImage(null)}
+            style={{ alignItems: 'center' }}
+          >
+            <Text style={[styles.text, { color: '#96C9DC' }]}>
+              Delete current image
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={requestPermissionAndPickImage}
+            style={{ alignItems: 'center' }}
+          >
+            <Text style={[styles.text, { color: '#96C9DC' }]}>
+              Select new image
+            </Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <TouchableOpacity
+          onPress={requestPermissionAndPickImage}
+          style={{ alignItems: 'center' }}
+        >
+          <Text style={[styles.text, { color: '#96C9DC' }]}>Add new image</Text>
+        </TouchableOpacity>
+      )}
       <View style={styles.textInputContainer}>
         <Text style={styles.text}>Product name:</Text>
         <TextInput

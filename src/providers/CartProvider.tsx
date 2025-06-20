@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { CartItem, Product } from '../type/types';
+import { CartItem, Product} from '../type/types';
 import uuid from 'react-native-uuid';
 
 type CartType = {

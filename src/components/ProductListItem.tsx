@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { Product } from '../type/types';
+import { Product, Tables } from '../type/types';
 
 export const defaultImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
 
 type ProductListItemProps = {
-  product: Product;
+  product: Tables<'products'>;
   onPress: () => void;
 };
 

@@ -37,7 +37,7 @@ export default function ProductDetailScreen() {
 
   useLayoutEffect(() => {
     if (product) {
-      navigation.setOptions({ title: product.name });
+      navigation.setOptions({ title: product.name ?? '' });
     }
   }, [navigation, product]);
 
