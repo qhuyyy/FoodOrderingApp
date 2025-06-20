@@ -29,10 +29,8 @@ export default ProductListItem;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    marginVertical: 10,
-    marginHorizontal: 4,
     padding: 10,
+    borderRadius: 20,
     flex: 1,
     maxWidth: '50%',
     alignItems: 'center',

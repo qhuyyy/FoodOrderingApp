@@ -32,6 +32,7 @@ const SignInScreen = () => {
 
     if (error) {
       Alert.alert(error.message);
+      setLoading(false);
       return;
     } else {
       navigation.navigate('RoleSelector');

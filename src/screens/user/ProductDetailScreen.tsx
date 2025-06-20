@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
-  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,8 +13,12 @@ import { UserMenuStackParamList } from '../../navigation/UserMenuNavigator';
 import { useCartContext } from '../../providers/CartProvider';
 import { PizzaSize } from '../../type/types';
 import CustomButton from '../../components/CustomButton';
+import { useProduct } from '../../api/products';
 
-type ProductDetailRouteProp = RouteProp<UserMenuStackParamList, 'ProductDetail'>;
+type ProductDetailRouteProp = RouteProp<
+  UserMenuStackParamList,
+  'ProductDetail'
+>;
 type NavigationProp = NativeStackNavigationProp<UserMenuStackParamList>;
 
 const defaultPizzaImage =
@@ -24,7 +28,11 @@ export default function ProductDetailScreen() {
   const route = useRoute<ProductDetailRouteProp>();
   const navigation = useNavigation<NavigationProp>();
 
-  const { product } = route.params;
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useProduct(route.params.product.id);
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
   const [selectedSize, setSelectedSize] = useState<PizzaSize>('L');
@@ -39,13 +47,17 @@ export default function ProductDetailScreen() {
   };
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: `${product.name}` });
+    if (product?.name) {
+      navigation.setOptions({ title: product.name });
+    }
   }, [navigation, product]);
 
   if (!product) {
     return <Text>Product was not found</Text>;
   }
+  if (isLoading) return <ActivityIndicator />;
 
+  if (error) return <Text>Failed to fetch products</Text>;
   return (
     <View style={styles.container}>
       <Image

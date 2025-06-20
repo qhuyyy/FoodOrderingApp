@@ -13,17 +13,26 @@ import React, { useState } from 'react';
 import CustomButton from '../../components/CustomButton';
 import { defaultImage } from '../../components/ProductListItem';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useInsertProduct } from '../../api/products';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
 
 const CreateProductScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AdminMenuStackParamList>>();
+
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [errors, setErrors] = useState('');
-  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+
+  const { mutate: insertProduct } = useInsertProduct();
 
   const resetFields = () => {
     setName('');
     setPrice('');
-    setImageUri(null);
+    setImage(null);
   };
 
   const validateInputs = () => {
@@ -51,8 +60,17 @@ const CreateProductScreen = () => {
     console.log('Product created:', {
       name,
       price,
-      imageUri,
+      image,
     });
+
+    insertProduct(
+      { name, image, price: parseFloat(price) },
+      {
+        onSuccess: () => {
+          navigation.navigate('Menu'), resetFields();
+        },
+      },
+    );
 
     resetFields();
   };
@@ -60,7 +78,7 @@ const CreateProductScreen = () => {
   const requestPermissionAndPickImage = async () => {
     if (Platform.OS === 'android') {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES || // Android 13+
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES ||
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
       );
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
@@ -78,7 +96,7 @@ const CreateProductScreen = () => {
         if (response.didCancel) return;
         if (response.assets && response.assets.length > 0) {
           const selected = response.assets[0];
-          setImageUri(selected.uri || null);
+          setImage(selected.uri || null);
         }
       },
     );
@@ -86,12 +104,12 @@ const CreateProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: imageUri || defaultImage }}
-        style={styles.image}
-      />
+      <Image source={{ uri: image || defaultImage }} style={styles.image} />
 
-      <TouchableOpacity onPress={requestPermissionAndPickImage} style={{ alignItems: 'center' }}>
+      <TouchableOpacity
+        onPress={requestPermissionAndPickImage}
+        style={{ alignItems: 'center' }}
+      >
         <Text style={[styles.text, { color: '#96C9DC' }]}>Select Image</Text>
       </TouchableOpacity>
 

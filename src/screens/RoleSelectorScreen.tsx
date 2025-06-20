@@ -43,6 +43,7 @@ export default function RoleSelectorScreen() {
         index: 0,
         routes: [{ name: 'User' }],
       });
+      // navigation.navigate('User');
     }
   }, [loading, session, isAdmin]);
 

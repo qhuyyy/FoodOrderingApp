@@ -5,14 +5,13 @@ import {
   StyleSheet,
   Image,
   Pressable,
-  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
-import { useCartContext } from '../../providers/CartProvider';
 import { PizzaSize } from '../../type/types';
-import CustomButton from '../../components/CustomButton';
+import { useProduct } from '../../api/products';
 
 type ProductDetailRouteProp = RouteProp<
   AdminMenuStackParamList,
@@ -27,18 +26,25 @@ export default function ProductDetailScreen() {
   const route = useRoute<ProductDetailRouteProp>();
   const navigation = useNavigation<NavigationProp>();
 
-  const { product } = route.params;
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useProduct(route.params.product.id);
 
   const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
   const [selectedSize, setSelectedSize] = useState('');
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: `${product.name}` });
+    if (product) {
+      navigation.setOptions({ title: product.name });
+    }
   }, [navigation, product]);
 
   if (!product) {
-    return <Text>Product was not found</Text>;
+    return <ActivityIndicator />;
   }
+  if (isLoading) return <ActivityIndicator />;
 
   return (
     <View style={styles.container}>

@@ -16,6 +16,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useDeleteProduct, useUpdateProduct } from '../../api/products';
 
 type ProductDetailRouteProp = RouteProp<
   AdminMenuStackParamList,
@@ -29,15 +30,20 @@ const UpdateProductScreen = () => {
 
   const { product } = route.params;
 
+  const id = product.id;
+
   const [name, setName] = useState(product.name);
   const [price, setPrice] = useState(product.price.toString());
   const [errors, setErrors] = useState('');
-  const [imageUri, setImageUri] = useState<string | null>(product.image);
+  const [image, setImage] = useState<string | null>(product.image);
+
+  const { mutate: updateProduct } = useUpdateProduct();
+  const { mutate: deleteProduct } = useDeleteProduct();
 
   const resetFields = () => {
     setName('');
     setPrice('');
-    setImageUri(null);
+    setImage(null);
   };
 
   const validateInputs = () => {
@@ -62,17 +68,23 @@ const UpdateProductScreen = () => {
   const onUpdate = () => {
     if (!validateInputs()) return;
 
-    console.log('Product updated:', {
-      name,
-      price,
-      imageUri,
-    });
-
-    resetFields();
+    updateProduct(
+      { id, name, image, price: parseFloat(price) },
+      {
+        onSuccess: () => {
+          navigation.navigate('Menu'), resetFields();
+        },
+      },
+    );
   };
 
   const onDelete = () => {
-    console.log('Product deleted!');
+    deleteProduct(id, {
+      onSuccess: () => {
+        navigation.navigate('Menu');
+        resetFields();
+      },
+    });
   };
 
   const confirmDelete = () => {
@@ -108,7 +120,7 @@ const UpdateProductScreen = () => {
         if (response.didCancel) return;
         if (response.assets && response.assets.length > 0) {
           const selected = response.assets[0];
-          setImageUri(selected.uri || null);
+          setImage(selected.uri || null);
         }
       },
     );
@@ -116,7 +128,7 @@ const UpdateProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: imageUri || defaultImage }} style={styles.image} />
+      <Image source={{ uri: image || defaultImage }} style={styles.image} />
       <TouchableOpacity
         onPress={requestPermissionAndPickImage}
         style={{ alignItems: 'center' }}
@@ -145,10 +157,7 @@ const UpdateProductScreen = () => {
       <Text style={{ color: 'red' }}>{errors}</Text>
       <CustomButton text="Update the Product" onPress={onUpdate} />
 
-      <TouchableOpacity
-        onPress={confirmDelete}
-        style={{ alignSelf: 'center' }}
-      >
+      <TouchableOpacity onPress={confirmDelete} style={{ alignSelf: 'center' }}>
         <Text style={[styles.text, { color: '#96C9DC' }]}>
           Delete the Product
         </Text>
