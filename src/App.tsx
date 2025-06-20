@@ -17,10 +17,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <AuthProvider>
-      <QueryProvider>
-        <CartProvider>
-          <NavigationContainer>
+    <NavigationContainer>
+      <AuthProvider>
+        <QueryProvider>
+          <CartProvider>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="SignIn" component={SignInScreen} />
               <Stack.Screen name="SignUp" component={SignUpScreen} />
@@ -33,9 +33,9 @@ export default function App() {
               <Stack.Screen name="User" component={UserTabNavigator} />
             </Stack.Navigator>
             <StatusBar barStyle={'dark-content'} />
-          </NavigationContainer>
-        </CartProvider>
-      </QueryProvider>
-    </AuthProvider>
+          </CartProvider>
+        </QueryProvider>
+      </AuthProvider>
+    </NavigationContainer>
   );
 }

@@ -26,7 +26,7 @@ const MenuScreen = () => {
   if (isLoading) return <ActivityIndicator />;
 
   if (error) return <Text>Failed to fetch products</Text>;
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -36,6 +36,8 @@ const MenuScreen = () => {
         )}
         keyExtractor={item => item.id.toString()}
         numColumns={2}
+        contentContainerStyle={{ gap: 10, padding: 10 }}
+        columnWrapperStyle={{ gap: 10 }}
       />
     </SafeAreaView>
   );

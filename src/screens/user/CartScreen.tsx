@@ -5,7 +5,7 @@ import CartListItem from '../../components/CartListItem';
 import CustomButton from '../../components/CustomButton';
 
 const CartScreen = () => {
-  const { items, total } = useCartContext();
+  const { items, total, checkout } = useCartContext();
 
   return (
     <View>
@@ -18,7 +18,7 @@ const CartScreen = () => {
         Total price: ${total}
       </Text>
       <View style={{ padding: 10 }}>
-        <CustomButton text="Checkout" />
+        <CustomButton onPress={checkout} text="Checkout" />
       </View>
     </View>
   );

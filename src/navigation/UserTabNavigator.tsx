@@ -12,7 +12,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'User'>;
 
 export type TabParamList = {
   MenuStack: undefined;
-  Orders: undefined;
+  OrdersStack: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -44,7 +44,7 @@ export default function UserTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="Orders"
+        name="OrdersStack"
         component={UserOrderNavigator}
         options={{
           title: 'Orders',

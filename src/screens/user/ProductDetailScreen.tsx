@@ -52,9 +52,8 @@ export default function ProductDetailScreen() {
     }
   }, [navigation, product]);
 
-  if (!product) {
-    return <Text>Product was not found</Text>;
-  }
+  if (!product) return <ActivityIndicator />;
+
   if (isLoading) return <ActivityIndicator />;
 
   if (error) return <Text>Failed to fetch products</Text>;

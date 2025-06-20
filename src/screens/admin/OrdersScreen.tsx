@@ -1,12 +1,19 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import orders from '../../assets/data/orders';
+// import orders from '../../assets/data/orders';
 import OrderListItem from '../../components/OrderListItem';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { UserOrderStackParamList } from '../../navigation/UserOrderNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { Order } from '../../type/types';
+import { useAdminOrderList } from '../../api/orders';
 
 export type NavigationProp = NativeStackNavigationProp<
   UserOrderStackParamList,
@@ -20,12 +27,25 @@ const OrdersScreen = () => {
     navigation.navigate('OrderDetail', { order });
   };
 
+  const { data: orders, isLoading, error } = useAdminOrderList({archived: false});
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch Orders</Text>;
+  } 
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={orders}
         renderItem={({ item }) => (
-          <OrderListItem order={item} onPress={() => goToOrderDetail(item)} />
+          <OrderListItem
+            order={item as Order}
+            onPress={() => goToOrderDetail(item as Order)}
+          />
         )}
         contentContainerStyle={{ gap: 10 }}
       />

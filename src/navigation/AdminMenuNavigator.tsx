@@ -12,7 +12,7 @@ import AdminProductDetailScreen from '../screens/admin/ProductDetailScreen';
 import CreateProductScreen from '../screens/admin/CreateProductScreen';
 import UpdateProductScreen from '../screens/admin/UpdateProductScreen';
 import AdminMenuScreen from '../screens/admin/MenuScreen';
-import AdminCartScreen from '../screens/admin/CartScreen';
+// import AdminCartScreen from '../screens/admin/CartScreen';
 
 export type AdminMenuStackParamList = {
   Menu: undefined;
@@ -78,11 +78,11 @@ export default function AdminMenuNavigator() {
           component={UpdateProductScreen}
           options={{ headerTitleAlign: 'center', title: 'Update the Product' }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Cart"
           component={AdminCartScreen}
           options={{ headerTitleAlign: 'center' }}
-        />
+        /> */}
       </Stack.Navigator>
     </CartProvider>
   );

@@ -6,7 +6,7 @@ import { Order } from '../type/types';
 
 export type UserOrderStackParamList = {
   Orders: undefined;
-  OrderDetail: { order: Order }; // sửa kiểu nếu cần
+  OrderDetail: { order: Order }; 
 };
 
 const Stack = createStackNavigator<UserOrderStackParamList>();

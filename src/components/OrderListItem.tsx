@@ -9,12 +9,12 @@ import {
 import React from 'react';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
-import { Order } from '../type/types';
+import { Order, Tables } from '../type/types';
 
 dayjs.extend(relativeTime);
 
 type OrderListItemProps = TouchableOpacityProps & {
-  order: Order;
+  order: Tables<'orders'>;
 };
 
 const OrderListItem = ({ order, ...rest }: OrderListItemProps) => {
