@@ -79,13 +79,8 @@ const OrderDetailScreen = () => {
         renderItem={({ item }) => (
           <OrderItemListItem item={{ ...item, size: item.size as PizzaSize }} />
         )}
-        contentContainerStyle={{ gap: 2 }}
+        contentContainerStyle={{ gap: 4 }}
       />
-
-      <View style={styles.statusContainer}>
-        <Text style={styles.text}>Status:</Text>
-        <Text style={styles.text}>{order.status}</Text>
-      </View>
 
       {order.status === 'New' && (
         <CustomButton text="Delete Order" onPress={() => onDelete(order.id)} />

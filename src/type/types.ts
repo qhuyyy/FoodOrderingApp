@@ -52,5 +52,5 @@ export type OrderItem = {
 
 export type Profile = {
   id: string;
-  group: string;
+  group: string | null;
 };

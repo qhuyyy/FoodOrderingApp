@@ -45,6 +45,7 @@ const OrdersScreen = () => {
           <OrderListItem
             order={item as Order}
             onPress={() => goToOrderDetail(item as Order)}
+            
           />
         )}
         contentContainerStyle={{ gap: 10 }}
@@ -60,6 +61,3 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-function useUserOrderList(): { data: any; isLoading: any; error: any } {
-  throw new Error('Function not implemented.');
-}

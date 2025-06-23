@@ -7,7 +7,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   RoleSelector: undefined;
   Admin: undefined;
-  User: {
+  User: undefined |{
     screen?: keyof TabParamList;
     params?: {
       screen?: keyof UserOrderStackParamList;

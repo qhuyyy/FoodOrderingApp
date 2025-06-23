@@ -52,6 +52,16 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
     supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
+      if (session) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+        setProfile(data || null);
+      } else {
+        setProfile(null); // 👈 phải có dòng này
+      }
     });
   }, []);
 

@@ -17,6 +17,10 @@ import { AdminMenuStackParamList } from '../../navigation/AdminMenuNavigator';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDeleteProduct, useUpdateProduct } from '../../api/products';
+import uuid from 'react-native-uuid';
+import { decode } from 'base64-arraybuffer';
+import { supabase } from '../../lib/supabase';
+import RNFS from 'react-native-fs';
 
 type ProductDetailRouteProp = RouteProp<
   AdminMenuStackParamList,
@@ -65,11 +69,13 @@ const UpdateProductScreen = () => {
     return true;
   };
 
-  const onUpdate = () => {
+  const onUpdate = async () => {
     if (!validateInputs()) return;
 
+    const imagePath = image ? await uploadImage(image) : undefined;
+
     updateProduct(
-      { id, name, image, price: parseFloat(price) },
+      { id, name, image: imagePath, price: parseFloat(price) },
       {
         onSuccess: () => {
           navigation.navigate('Menu'), resetFields();
@@ -124,6 +130,35 @@ const UpdateProductScreen = () => {
         }
       },
     );
+  };
+
+  const uploadImage = async (imageUri: string) => {
+    if (!imageUri.startsWith('file://')) {
+      return;
+    }
+
+    try {
+      const base64 = await RNFS.readFile(imageUri, 'base64');
+      const filePath = `${uuid.v4()}.png`;
+      const contentType = 'image/png';
+
+      const { data, error } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, decode(base64), {
+          contentType,
+          upsert: false,
+        });
+
+      if (error) {
+        console.error('Upload error:', error.message);
+        return;
+      }
+
+      return data?.path;
+    } catch (err) {
+      console.error('File read/upload error:', err);
+      return;
+    }
   };
 
   return (

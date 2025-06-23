@@ -3,6 +3,7 @@ import React from 'react';
 import { CartItem } from '../type/types';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import { useCartContext } from '../providers/CartProvider';
+import RemoteImage from './RemoteImage';
 
 type CartListItemProps = {
   cartItem: CartItem;
@@ -14,8 +15,9 @@ const CartListItem = ({ cartItem }: CartListItemProps) => {
   const { updateQuantity } = useCartContext();
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: cartItem.product.image || defaultPizzaImage }}
+      <RemoteImage
+        path={cartItem.product.image}
+        fallback={defaultPizzaImage}
         style={styles.image}
         resizeMode="contain"
       />
@@ -54,6 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 0.5,
   },
   image: {
     width: 75,

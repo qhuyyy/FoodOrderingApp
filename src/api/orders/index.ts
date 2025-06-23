@@ -34,6 +34,13 @@ export const useAdminOrderList = ({ archived = false }) => {
         data.sort((a, b) => {
           const aOrder = statusOrder[a.status as OrderStatus] ?? 999;
           const bOrder = statusOrder[b.status as OrderStatus] ?? 999;
+
+          if (aOrder === bOrder) {
+            const getTime = (date: string | null) =>
+              date ? new Date(date).getTime() : 0;
+            return getTime(b.updated_at) - getTime(a.updated_at);
+          }
+
           return aOrder - bOrder;
         });
       }
@@ -62,7 +69,7 @@ export const useMyOrderList = () => {
       const { data, error } = await supabase
         .from('orders')
         .select('*')
-        .eq('user_id', id)
+        .eq('user_id', id);
       if (error) {
         throw new Error(error.message);
       }
@@ -70,6 +77,13 @@ export const useMyOrderList = () => {
       data.sort((a, b) => {
         const aOrder = statusOrder[a.status as OrderStatus] ?? 999;
         const bOrder = statusOrder[b.status as OrderStatus] ?? 999;
+
+        if (aOrder === bOrder) {
+          const getTime = (date: string | null) =>
+            date ? new Date(date).getTime() : 0;
+          return getTime(b.updated_at) - getTime(a.updated_at);
+        }
+
         return aOrder - bOrder;
       });
 

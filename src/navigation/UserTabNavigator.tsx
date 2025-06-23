@@ -7,12 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../type/navigation';
 import { useAuthContext } from '../providers/AuthProvider';
+import ProfileScreen from '../screens/user/ProfileScreen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'User'>;
 
 export type TabParamList = {
   MenuStack: undefined;
   OrdersStack: undefined;
+  Profile: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -51,6 +53,20 @@ export default function UserTabNavigator() {
           tabBarIcon: ({ focused }) => (
             <Icon
               name="bars"
+              size={24}
+              color={focused ? '#007AFF' : '#8E8E93'}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="user"
               size={24}
               color={focused ? '#007AFF' : '#8E8E93'}
             />
