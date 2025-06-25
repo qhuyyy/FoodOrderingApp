@@ -21,6 +21,7 @@ import uuid from 'react-native-uuid';
 import { decode } from 'base64-arraybuffer';
 import { supabase } from '../../lib/supabase';
 import RNFS from 'react-native-fs';
+import RemoteImage from '../../components/RemoteImage';
 
 type ProductDetailRouteProp = RouteProp<
   AdminMenuStackParamList,
@@ -163,7 +164,11 @@ const UpdateProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: image || defaultImage }} style={styles.image} />
+      <RemoteImage
+        path={product.image}
+        fallback={defaultImage}
+        style={styles.image}
+      />
       {image ? (
         <>
           <TouchableOpacity
