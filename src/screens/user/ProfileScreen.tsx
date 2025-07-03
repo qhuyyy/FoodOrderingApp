@@ -23,11 +23,6 @@ const ProfileScreen = () => {
           const { error } = await supabase.auth.signOut();
           if (error) {
             console.error('Sign out error:', error.message);
-          } else {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'SignIn' }],
-            });
           }
         }}
       />

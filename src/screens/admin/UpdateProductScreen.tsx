@@ -41,6 +41,7 @@ const UpdateProductScreen = () => {
   const [price, setPrice] = useState(product.price.toString());
   const [errors, setErrors] = useState('');
   const [image, setImage] = useState<string | null>(product.image);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutate: updateProduct } = useUpdateProduct();
   const { mutate: deleteProduct } = useDeleteProduct();
@@ -72,17 +73,23 @@ const UpdateProductScreen = () => {
 
   const onUpdate = async () => {
     if (!validateInputs()) return;
-
-    const imagePath = image ? await uploadImage(image) : undefined;
-
-    updateProduct(
-      { id, name, image: imagePath, price: parseFloat(price) },
-      {
-        onSuccess: () => {
-          navigation.navigate('Menu'), resetFields();
+    setIsLoading(true);
+    try {
+      const imagePath = image ? await uploadImage(image) : undefined;
+      updateProduct(
+        { id, name, image: imagePath, price: parseFloat(price) },
+        {
+          onSuccess: () => {
+            navigation.navigate('Menu');
+            resetFields();
+          },
+          onSettled: () => setIsLoading(false),
+          onError: () => setIsLoading(false),
         },
-      },
-    );
+      );
+    } catch (err) {
+      setIsLoading(false);
+    }
   };
 
   const onDelete = () => {
@@ -164,39 +171,27 @@ const UpdateProductScreen = () => {
 
   return (
     <View style={styles.container}>
-      <RemoteImage
-        path={product.image}
-        fallback={defaultImage}
-        style={styles.image}
-      />
-      {image ? (
-        <>
-          <TouchableOpacity
-            onPress={() => setImage(null)}
-            style={{ alignItems: 'center' }}
-          >
-            <Text style={[styles.text, { color: '#96C9DC' }]}>
-              Delete current image
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={requestPermissionAndPickImage}
-            style={{ alignItems: 'center' }}
-          >
-            <Text style={[styles.text, { color: '#96C9DC' }]}>
-              Select new image
-            </Text>
-          </TouchableOpacity>
-        </>
+      {image && image.startsWith('file://') ? (
+        <Image
+          source={{ uri: image }}
+          style={styles.image}
+          resizeMode="cover"
+        />
       ) : (
-        <TouchableOpacity
-          onPress={requestPermissionAndPickImage}
-          style={{ alignItems: 'center' }}
-        >
-          <Text style={[styles.text, { color: '#96C9DC' }]}>Add new image</Text>
-        </TouchableOpacity>
+        <RemoteImage
+          path={image || product.image}
+          fallback={defaultImage}
+          style={styles.image}
+        />
       )}
+
+      <TouchableOpacity
+        onPress={requestPermissionAndPickImage}
+        style={{ alignItems: 'center' }}
+      >
+        <Text style={[styles.text, { color: '#96C9DC' }]}>Add new image</Text>
+      </TouchableOpacity>
+
       <View style={styles.textInputContainer}>
         <Text style={styles.text}>Product name:</Text>
         <TextInput
@@ -217,7 +212,12 @@ const UpdateProductScreen = () => {
         />
       </View>
       <Text style={{ color: 'red' }}>{errors}</Text>
-      <CustomButton text="Update the Product" onPress={onUpdate} />
+      
+      <CustomButton
+        text={isLoading ? 'Updating...' : 'Update the Product'}
+        onPress={onUpdate}
+        disabled={isLoading}
+      />
 
       <TouchableOpacity onPress={confirmDelete} style={{ alignSelf: 'center' }}>
         <Text style={[styles.text, { color: '#96C9DC' }]}>
